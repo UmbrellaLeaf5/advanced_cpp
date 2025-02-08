@@ -22,9 +22,9 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # find_package()
 
 # ---------------------------------      Add executable     --------------------------------
-find_library(Lib ../)
+find_library(lib ../)
 
 file(GLOB SOURCES "*.hpp" "*.cpp")
 
 add_library(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} PRIVATE Lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE lib)
