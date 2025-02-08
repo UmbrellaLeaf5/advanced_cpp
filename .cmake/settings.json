@@ -1,0 +1,19 @@
+{
+  "REPO_LANGUAGES": [
+    "CXX"
+  ],
+  "CMAKE_CXX_STANDARD": 23,
+  "HEADERS_FORMAT": [
+    "*.hpp",
+    "*.h"
+  ],
+  "SOURCES_FORMAT": [
+    "*.cpp"
+  ],
+  "LIB_NAME": "lib",
+  "LESSON_PREFIX": "lesson_",
+  "TASK_PREFIXES": [
+    "task_",
+    "example_"
+  ]
+}
