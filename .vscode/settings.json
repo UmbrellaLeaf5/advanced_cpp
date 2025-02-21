@@ -6,6 +6,7 @@
     "qmlc",
     "qmlcache",
     "qmlproject",
+    "SFINAE",
     "smod",
     "SUBDIRS",
     "SUBFOLDERS",
@@ -16,5 +17,9 @@
     "Wfloat",
     "Wlogical",
     "Wpedantic"
-  ]
+  ],
+  "files.associations": {
+    "*.py": "python",
+    "random": "cpp"
+  }
 }
