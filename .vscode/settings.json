@@ -17,9 +17,5 @@
     "Wfloat",
     "Wlogical",
     "Wpedantic"
-  ],
-  "files.associations": {
-    "*.py": "python",
-    "random": "cpp"
-  }
+  ]
 }
