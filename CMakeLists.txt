@@ -18,3 +18,5 @@ endforeach()
 
 # Library
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${LIB_NAME})
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${LIB_NAME}/icecream-cpp)

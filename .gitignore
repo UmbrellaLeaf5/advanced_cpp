@@ -79,3 +79,6 @@ compile_commands.json
 build/
 .vscode/*
 !.vscode/settings.json
+
+CMake/
+include/
