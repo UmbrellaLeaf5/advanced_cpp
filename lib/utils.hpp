@@ -2,6 +2,7 @@
 
 #include <cxxabi.h>
 
+#include <iomanip>
 #include <iostream>
 #include <memory>
 #include <type_traits>
@@ -11,7 +12,15 @@
 
 #ifndef IC_TYPE
 #define IC_TYPE(x) IC(x, detail::TypeName<decltype(x)>())
+#endif
 
+#ifndef ICDouble
+#define ICDouble(value)                                   \
+  {                                                       \
+    std::stringstream ss;                                 \
+    ss << std::fixed << std::setprecision(19) << (value); \
+    IC(value, ss.str());                                  \
+  }
 #endif
 
 namespace detail {
