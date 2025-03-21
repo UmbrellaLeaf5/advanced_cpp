@@ -4,27 +4,34 @@
 
 #include "utils.hpp"
 
-struct YesStruct {
+struct HaveSort {
   char c;
 };
 
-struct NoStruct {
+struct HaveRange {
   char c;
-  YesStruct cl;
+  HaveSort cl;
 };
 
-static_assert(sizeof(YesStruct) != sizeof(NoStruct), "Выберите другие типы");
+struct HaveNothing {
+  char c;
+  HaveRange cl;
+};
+
+// static_assert(sizeof(yes) != sizeof(no), "Выберите другие типы");
 
 template <typename T>
-YesStruct TestSort(decltype(&T::Sort));
+HaveSort TestSort(decltype(&T::Sort), decltype(&T::Sort));
 template <typename T>
-NoStruct TestSort(...);
+HaveRange TestSort(decltype(&T::begin), decltype(&T::end));
+template <typename T>
+HaveNothing TestSort(...);
 
-template <typename T, size_t S>
+template <typename T, size_t s>
 struct FastSortHelper;
 
 template <typename T>
-struct FastSortHelper<T, sizeof(YesStruct)> {
+struct FastSortHelper<T, sizeof(HaveSort)> {
   static void FastSort(T& x) {
     IC();
     x.Sort();
@@ -32,7 +39,7 @@ struct FastSortHelper<T, sizeof(YesStruct)> {
 };
 
 template <typename T>
-struct FastSortHelper<T, sizeof(NoStruct)> {
+struct FastSortHelper<T, sizeof(HaveRange)> {
   static void FastSort(T& x) {
     IC();
     std::sort(x.begin(), x.end());
@@ -40,18 +47,31 @@ struct FastSortHelper<T, sizeof(NoStruct)> {
 };
 
 template <typename T>
-inline void FastSort(T& x) {
-  FastSortHelper<T, sizeof(TestSort<T>(nullptr))>::FastSort(x);
+void FastSort(T& x) {
+  FastSortHelper<T, sizeof(TestSort<T>(NULL, NULL))>::FastSort(x);
 }
 
 class A {
  public:
-  void Sort() {}
+  void Sort() {};
 };
 
 class B {
  public:
-  void f() {}
+  void f();
+
+  float begin() { return 0.0; }
+  int end() { return 0; }
+};
+
+class C {
+ public:
+  void f();
+
+  int* begin() { return a; }
+  int* end() { return a + 10; }
+
+  int a[10];
 };
 
 int main() {
@@ -60,4 +80,8 @@ int main() {
 
   B b;
   // FastSort(b);
+  // ERROR: no matching function for call to 'sort(float, int)'
+
+  C c;
+  FastSort(c);
 }
