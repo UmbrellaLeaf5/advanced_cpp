@@ -19,5 +19,6 @@
     "Wfloat",
     "Wlogical",
     "Wpedantic"
-  ]
+  ],
+  "docwriter.style": "Auto-detect"
 }
