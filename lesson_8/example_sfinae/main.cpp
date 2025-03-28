@@ -4,13 +4,12 @@
 #include <list>
 #include <vector>
 
-template <class T, T v>
+template <class T, T V>
 struct integral_constant {
-  static constexpr T value = v;
+  static constexpr T value = V;
 };
 
 struct true_type : public integral_constant<bool, true> {};
-
 struct false_type : public integral_constant<bool, false> {};
 
 template <class T>
@@ -27,25 +26,46 @@ struct enable_if<true, T> : public same<T> {};
 template <bool V, class T = void>
 using enable_if_t = typename enable_if<V, T>::type;
 
+// MARK: detail
 namespace detail {
 
-template <typename T>
-true_type test_have_sort(decltype(&T::sort));
-template <typename T>
+template <class T>
+T declval();
+
+template <class T>
+struct is_sort_fun : public false_type {};
+
+template <class T>
+struct is_sort_fun<void (T::*)()> : public true_type {};
+
+template <class T>
+is_sort_fun<decltype(&T::sort)> test_have_sort(T);
 false_type test_have_sort(...);
 
-// в C++11 нельзя было наследоваться от decltype
 template <class T>
-struct __have_sort : public same<decltype(test_have_sort<T>(nullptr))> {};
+struct __have_sort : public same<decltype(test_have_sort(declval<T>()))> {};
+
+template <class T>
+struct is_range_fun : public false_type {};
+
+template <class T>
+struct is_range_fun<typename T::iterator (T::*)()> : public true_type {};
+
+template <bool V1, bool V2>
+struct __and : public false_type {};
+
+template <>
+struct __and<true, true> : public true_type {};
 
 template <typename T>
-true_type test_have_range(decltype(&T::begin), decltype(&T::end));
-template <typename T>
+__and<is_range_fun<decltype(&T::begin)>::value,
+      is_range_fun<decltype(&T::end)>::value>
+    test_have_range(T);
+
 false_type test_have_range(...);
 
 template <class T>
-struct __have_range
-    : public same<decltype(test_have_range<T>(nullptr, nullptr))> {};
+struct __have_range : public same<decltype(test_have_range(declval<T>()))> {};
 
 };  // namespace detail
 
@@ -80,6 +100,8 @@ class A {
 
 class B {
  public:
+  using iterator = int*;
+
   void f();
   int* begin() { return a; }
   int* end() { return a + 10; }
@@ -94,6 +116,9 @@ class C {
   int a[10];
 };
 
+template <class T>
+void f() = delete;
+
 int main() {
   A a;
   fast_sort(a);
@@ -104,8 +129,13 @@ int main() {
   C c;
   fast_sort(c);
 
-  // std::list<int> l{1, 2, 3, 4};
-  // std::vector<float> v{4.6, 7.8, 8.0};
+  // std::list l{1, 2, 3, 4};
+  // std::vector v{4.6, 7.8, 8.0};
+
+  // auto tmp = static_cast<void (std::list<int>::*)()>(std::list<int>::sort);
+  // std::cout << std::boolalpha
+  //           << detail::is_sort_fun<decltype(&std::list<int>::sort)>::value
+  //           << std::endl;
 
   // fast_sort(l);
   // fast_sort(v);
