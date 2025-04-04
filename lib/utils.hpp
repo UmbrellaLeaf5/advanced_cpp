@@ -2,11 +2,14 @@
 
 #include <cxxabi.h>
 
+#include <algorithm>
 #include <iomanip>
 #include <iostream>
+#include <list>
 #include <memory>
 #include <type_traits>
 #include <typeinfo>
+#include <vector>
 
 #include "icecream.hpp"
 
