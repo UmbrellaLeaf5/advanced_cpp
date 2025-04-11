@@ -19,4 +19,5 @@ endforeach()
 # Library
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${LIB_NAME})
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${LIB_NAME}/icecream-cpp)
+# Uncomment and install to get icecream-cpp (and comment other add_subdirectory)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${LIB_NAME}/icecream-cpp)
