@@ -18,7 +18,7 @@
     "*.cpp"
   ],
   "LIB_NAME": "lib",
-  "LESSON_PREFIX": "lesson_",
+  "LESSON_PREFIX": "lessons/lesson_",
   "TASK_PREFIXES": [
     "task_",
     "example_"
