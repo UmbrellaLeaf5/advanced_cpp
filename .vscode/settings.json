@@ -1,5 +1,7 @@
 {
   "cSpell.words": [
+    "constexpr",
+    "CRTP",
     "dylib",
     "EENS",
     "endforeach",
@@ -18,7 +20,9 @@
     "Wextra",
     "Wfloat",
     "Wlogical",
-    "Wpedantic"
+    "Wpedantic",
+    "виджете",
+    "трофи"
   ],
   "docwriter.style": "Auto-detect"
 }
