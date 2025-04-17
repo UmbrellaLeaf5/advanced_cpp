@@ -81,4 +81,6 @@ build/
 !.vscode/settings.json
 
 CMake/
-include/
+include/icecream.hpp
+
+temp.*
