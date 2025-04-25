@@ -47,7 +47,7 @@ endif()
 # EXCEPT_FILES_LIST_NAME: Name of list of file names to avoid copying
 #
 # Does:
-# This function copies all files from current source directory
+# Copies all files from current source directory
 # (specified by CMAKE_CURRENT_SOURCE_DIR) to project's binary directory
 # (specified by PROJECT_BINARY_DIR), excluding files that match source
 # and header file formats (specified by SOURCES_FORMAT and HEADERS_FORMAT).

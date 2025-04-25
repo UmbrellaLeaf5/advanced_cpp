@@ -8,9 +8,11 @@ include(.cmake/settings.cmake)
 # Lesson folders
 file(GLOB_RECURSE DIRS LIST_DIRECTORIES true ".")
 
+string(REPLACE ";" "|" PREFIX "${LESSON_PREFIXES}")
+
 foreach(DIR ${DIRS})
   if(IS_DIRECTORY ${DIR})
-    if(${DIR} MATCHES "${PROJECT_NAME}/${LESSON_PREFIX}[^/]*$")
+    if(${DIR} MATCHES "${PROJECT_NAME}/(${PREFIX})[^/]*$")
       add_subdirectory(${DIR})
     endif()
   endif()
