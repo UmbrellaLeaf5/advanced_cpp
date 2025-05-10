@@ -44,9 +44,11 @@ std::ostream& Manager::PrintUser(size_t user_id) const {
 
 std::ostream& Manager::PrintAllUsers() const {
   os_ << "! All Users: " << "\n";
+
   for (const auto& pair : users_dict_) PrintUser(pair.first);
 
-  return os_;
+  if (users_dict_.empty()) os_ << "    [no users]\n";
+  return os_ << "!\n\n";
 }
 
 std::ostream& Manager::CreateGroup(size_t group_id, const std::string& title) {
@@ -88,9 +90,11 @@ std::ostream& Manager::PrintGroup(size_t group_id) const {
 
 std::ostream& Manager::PrintAllGroups() const {
   os_ << "! All Groups: " << "\n";
+
   for (const auto& pair : groups_dict_) PrintGroup(pair.first);
 
-  return os_;
+  if (groups_dict_.empty()) os_ << "    [no groups]\n";
+  return os_ << "!\n\n";
 }
 
 std::ostream& Manager::AddUser(size_t user_id, size_t group_id) {
