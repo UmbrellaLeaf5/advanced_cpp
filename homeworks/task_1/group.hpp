@@ -11,6 +11,9 @@ class User;
 
 class Group {
  public:
+  Group(const Group&) = delete;
+  Group& operator=(const Group&) = delete;
+
   Group(size_t id, const std::string& title) : id_{id}, title_(title) {}
 
   bool IsUserIn(const std::shared_ptr<User>& user_ptr) const;

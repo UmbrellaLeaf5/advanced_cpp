@@ -6,7 +6,7 @@
 
 std::ostream& Manager::CreateUser(size_t user_id, const std::string& nickname,
                                   ssize_t group_id) {
-  if (IsKeyInMap(users_dict_, user_id)) {
+  if (users_dict_.count(user_id)) {
     os_ << "? " << GetUserFullString_(user_id) << " is already exists ?\n\n";
     return os_;
   }
@@ -52,7 +52,7 @@ std::ostream& Manager::PrintAllUsers() const {
 }
 
 std::ostream& Manager::CreateGroup(size_t group_id, const std::string& title) {
-  if (IsKeyInMap(groups_dict_, group_id)) {
+  if (groups_dict_.count(group_id)) {
     os_ << "? " << GetGroupFullString_(group_id) << " is already exists!\n\n";
     return os_;
   }
@@ -119,7 +119,7 @@ std::ostream& Manager::AddUser(size_t user_id, size_t group_id) {
         << GetGroupFullString_(group_id) << " SUCCESSFULLY !\n\n";
 
   } catch (const std::out_of_range&) {
-    if (IsKeyInMap(groups_dict_, group_id))
+    if (groups_dict_.count(group_id))
       os_ << "? " << GetUserFullString_(user_id) << " does not exist ?\n\n";
     else
       os_ << "? " << GetGroupFullString_(group_id) << " does not exist ?\n\n";
@@ -134,14 +134,17 @@ std::ostream& Manager::AddUser(size_t user_id, size_t group_id) {
 
 std::ostream& Manager::RemoveUser(size_t user_id, size_t group_id) {
   try {
-    groups_dict_.at(group_id)->RemoveUser(users_dict_.at(user_id));
-    users_dict_.at(user_id)->RemoveFromGroup();
+    auto user_ptr = users_dict_.at(user_id);
+    auto group_ptr = groups_dict_.at(group_id);
+
+    group_ptr->RemoveUser(user_ptr);
+    user_ptr->RemoveFromGroup();
 
     os_ << "! " << GetUserFullString_(user_id) << " removed from "
         << GetGroupFullString_(group_id) << " SUCCESSFULLY !\n\n";
 
   } catch (const std::out_of_range&) {
-    if (IsKeyInMap(groups_dict_, group_id))
+    if (groups_dict_.count(group_id))
       os_ << "? " << GetUserFullString_(user_id) << " does not exist ?\n\n";
     else
       os_ << "? " << GetGroupFullString_(group_id) << " does not exist ?\n\n";

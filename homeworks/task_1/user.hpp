@@ -10,6 +10,9 @@ class Group;
 
 class User {
  public:
+  User(const User&) = delete;
+  User& operator=(const User&) = delete;
+
   User(size_t id, const std::string& nickname) : id_{id}, nickname_(nickname) {}
 
   bool HasGroup() const { return group_ptr_.lock() != nullptr; }

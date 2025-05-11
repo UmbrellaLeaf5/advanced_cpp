@@ -84,13 +84,3 @@ void PrintVerboseVarInfo(const T& value) {
   std::cout << "--------------------------------------------------"
             << std::endl;
 }
-
-template <typename T, typename U>
-inline bool IsKeyInMap(const std::unordered_map<T, U>& dict, const T& key) {
-  return dict.find(key) != dict.end();
-}
-
-template <typename T, typename U>
-inline bool IsKeyInMap(const std::map<T, U>& dict, const T& key) {
-  return dict.find(key) != dict.end();
-}

@@ -21,16 +21,14 @@ std::ostream& operator<<(std::ostream& os, const User& user) {
 
 std::ostream& operator<<(std::ostream& os,
                          const std::weak_ptr<User>& user_ptr) {
-  if (!user_ptr.lock())
-    throw std::runtime_error("operator<<(os, std::weak_ptr<User> user_ptr)");
+  if (!user_ptr.lock()) return os << "*nullptr";
 
   return os << *user_ptr.lock();
 }
 
 std::ostream& operator<<(std::ostream& os,
                          const std::shared_ptr<User>& user_ptr) {
-  if (!user_ptr)
-    throw std::runtime_error("operator<<(os, std::shared_ptr<User> user_ptr)");
+  if (!user_ptr) return os << "*nullptr";
 
   return os << *user_ptr;
 }

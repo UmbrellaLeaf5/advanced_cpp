@@ -23,7 +23,7 @@ void Group::RemoveUser(const std::shared_ptr<User>& user_ptr) {
 }
 
 void Group::RemoveUser(size_t user_id) {
-  auto it = std::find_if(user_ptrs_.begin(), user_ptrs_.end(),
+  auto it = std::find_if(user_ptrs_.cbegin(), user_ptrs_.cend(),
                          [&user_id](const auto& u) {
                            // (только в одном случае может найтись nullptr:
                            // это и есть то, что нам нужно удалить)
@@ -42,7 +42,7 @@ Group::~Group() {
 
 std::vector<std::weak_ptr<User>>::const_iterator Group::UserIter_(
     const std::shared_ptr<User>& user_ptr) const {
-  return std::find_if(user_ptrs_.begin(), user_ptrs_.end(),
+  return std::find_if(user_ptrs_.cbegin(), user_ptrs_.cend(),
                       // (только в одном случае может найтись nullptr:
                       // это и есть то, что нам нужно удалить)
                       [&user_ptr](const auto& u) {
@@ -65,16 +65,14 @@ std::ostream& operator<<(std::ostream& os, const Group& group) {
 
 std::ostream& operator<<(std::ostream& os,
                          const std::weak_ptr<Group>& group_ptr) {
-  if (!group_ptr.lock())
-    throw std::runtime_error("operator<<(os, std::weak_ptr<Group>)");
+  if (!group_ptr.lock()) return os << "*nullptr";
 
   return os << *group_ptr.lock();
 }
 
 std::ostream& operator<<(std::ostream& os,
                          const std::shared_ptr<Group>& group_ptr) {
-  if (!group_ptr)
-    throw std::runtime_error("operator<<(os, std::shared_ptr<Group>)");
+  if (!group_ptr) return os << "*nullptr";
 
   return os << *group_ptr;
 }
