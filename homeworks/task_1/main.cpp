@@ -66,7 +66,16 @@ int main() {
                     "group, including all users who are members of it;\n"
                     "'addUser {userId} {groupId}' - add user to group;\n"
                     "'removeUser {userId} {groupId}' - remove a user from a "
-                    "group;\n\n";
+                    "group;\n "
+                    "'exit' - exit the program;"
+                    "\n\n";
+           }},
+          {"exit",
+           []([[maybe_unused]] Manager& m,
+              [[maybe_unused]] std::stringstream& ss) {
+             std::cout << "Exiting the program...\n\n";
+
+             std::exit(0);
            }},
           {"createUser",
            [](Manager& m, std::stringstream& ss) {
@@ -125,7 +134,7 @@ int main() {
 
   for (;;) {
     std::cout << "/";
-    if (!std::getline(std::cin, command)) break;
+    if (!std::getline(std::cin, command) || std::cin.eof()) break;
 
     std::stringstream ss(command);
 
@@ -142,8 +151,10 @@ int main() {
         std::cout << "? Invalid command arguments: " << re.what() << " ? \n\n";
       }
 
+    else if (action != "")
+      std::cout << "? Unknown command: '" << action << "' ? \n\n";
     else
-      std::cerr << "? Unknown command: '" << action << "' ? \n\n";
+      std::cout << "\n";
   }
 
   return 0;
