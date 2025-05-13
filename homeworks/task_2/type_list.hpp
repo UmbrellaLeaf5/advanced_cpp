@@ -9,72 +9,73 @@ template <typename... Types>
 class TypeList {
  private:
   template <typename... Ts>
-  struct TypeListImplementation {};
+  struct TypeList_ {};
 
-  template <size_t Index, typename TList>
-  struct TypeAt;
+  template <size_t Index, typename List>
+  struct TypeAt_;
 
-  template <size_t Index, typename T, typename... Ts>
-  struct TypeAt<Index, TypeListImplementation<T, Ts...>>
-      : TypeAt<Index - 1, TypeListImplementation<Ts...>> {};
-
-  template <typename T, typename... Ts>
-  struct TypeAt<0, TypeListImplementation<T, Ts...>> {
-    using type = T;
+  template <typename Current, typename... Rest>
+  struct TypeAt_<0, TypeList_<Current, Rest...>> {
+    using type = Current;
   };
 
-  template <typename T, typename TList>
-  struct Contains;
+  template <size_t Index, typename Current, typename... Rest>
+  struct TypeAt_<Index, TypeList_<Current, Rest...>>
+      : TypeAt_<Index - 1, TypeList_<Rest...>> {};
 
   template <typename T>
-  struct Contains<T, TypeListImplementation<>> : std::false_type {};
+  static constexpr bool Contains_() {
+    return false;
+  }
 
-  template <typename T, typename Start, typename... BehindStart>
-  struct Contains<T, TypeListImplementation<Start, BehindStart...>>
-      : std::conditional_t<
-            std::is_same_v<T, Start>, std::true_type,
-            Contains<T, TypeListImplementation<BehindStart...>>> {};
+  template <typename T, typename Current, typename... Rest>
+  static constexpr bool Contains_() {
+    if constexpr (!std::is_same_v<T, Current>) return Contains_<T, Rest...>();
 
-  template <typename T, typename TList>
-  struct IndexOf;
-
-  template <typename T, typename Start, typename... BehindStart>
-  struct IndexOf<T, TypeListImplementation<Start, BehindStart...>> {
-   private:
-    static constexpr ssize_t next =
-        IndexOf<T, TypeListImplementation<BehindStart...>>::value;
-
-   public:
-    static constexpr size_t value =
-        std::is_same_v<T, Start> ? 0 : (next == -1 ? next : 1 + next);
-  };
+    return true;
+  }
 
   template <typename T>
-  struct IndexOf<T, TypeListImplementation<>> {
-    static constexpr ssize_t value = -1;
-  };
+  static constexpr ssize_t IndexOf_() {
+    return -1;
+  }
+
+  template <typename T, typename Current, typename... Rest>
+  static constexpr ssize_t IndexOf_() {
+    constexpr ssize_t next_index = IndexOf_<T, Rest...>();
+
+    if constexpr (!std::is_same_v<T, Current>)
+      return next_index == -1 ? next_index : 1 + next_index;
+
+    return 0;
+  }
 
  public:
-  static constexpr size_t size() noexcept { return sizeof...(Types); }
+  static constexpr size_t Size() noexcept { return sizeof...(Types); }
 
   template <size_t Index>
-  using at = typename TypeAt<Index, TypeListImplementation<Types...>>::type;
+  using At = typename TypeAt_<Index, TypeList_<Types...>>::type;
 
   template <typename Type>
-  static constexpr bool contains() noexcept {
-    return Contains<Type, TypeListImplementation<Types...>>::value;
+  static constexpr bool Contains() noexcept {
+    return Contains_<Type, Types...>();
   }
 
   template <typename Type>
-  static constexpr size_t index_of() noexcept {
-    static_assert(contains<Type>(),
-                  "TypeList::index_of: Type not found in TypeList");
-    return IndexOf<Type, TypeListImplementation<Types...>>::value;
+  static constexpr size_t IndexOf() noexcept {
+    constexpr ssize_t index_of = IndexOf_<Type, Types...>();
+
+    static_assert(Contains<Type>(),
+                  "TypeList::IndexOf: Type not found in TypeList");
+
+    static_assert(index_of != -1, "TypeList::IndexOf: illegal instruction");
+
+    return static_cast<size_t>(index_of);
   }
 
   template <typename Type>
-  using append = TypeList<Types..., Type>;
+  using Append = TypeList<Types..., Type>;
 
   template <typename Type>
-  using prepend = TypeList<Type, Types...>;
+  using Prepend = TypeList<Type, Types...>;
 };
