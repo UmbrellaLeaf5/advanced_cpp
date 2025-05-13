@@ -10,16 +10,25 @@ file(GLOB_RECURSE DIRS LIST_DIRECTORIES true ".")
 
 string(REPLACE ";" "|" PREFIX "${LESSON_PREFIXES}")
 
-foreach(DIR ${DIRS})
-  if(IS_DIRECTORY ${DIR})
-    if(${DIR} MATCHES "${PROJECT_NAME}/(${PREFIX})[^/]*$")
-      add_subdirectory(${DIR})
+set(ICECREAM_CONFIG_FILE "${CMAKE_CURRENT_SOURCE_DIR}/CMake/icecream-cpp-config.cmake")
+
+if(EXISTS "${ICECREAM_CONFIG_FILE}")
+  message(STATUS "Icecream-cpp installed correctly!")
+
+  foreach(DIR ${DIRS})
+    if(IS_DIRECTORY ${DIR})
+      if(${DIR} MATCHES "${PROJECT_NAME}/(${PREFIX})[^/]*$")
+        add_subdirectory(${DIR})
+      endif()
     endif()
-  endif()
-endforeach()
+  endforeach()
 
-# Library
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${LIB_NAME})
+  # Library
+  add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${LIB_NAME})
 
-# Uncomment and install to get icecream-cpp (and comment other add_subdirectory)
-# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${LIB_NAME}/icecream-cpp)
+else()
+  message(STATUS "Icecream-cpp not installed...")
+  message(WARNING "Please, install icecream-cpp with `cmake --install <build_directory>`")
+
+  add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${LIB_NAME}/icecream-cpp)
+endif()
