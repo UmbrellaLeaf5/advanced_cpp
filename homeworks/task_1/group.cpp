@@ -22,19 +22,6 @@ void Group::RemoveUser(const std::shared_ptr<User>& user_ptr) {
   user_ptrs_.erase(it);
 }
 
-void Group::RemoveUser(size_t user_id) {
-  auto it = std::find_if(user_ptrs_.cbegin(), user_ptrs_.cend(),
-                         [&user_id](const auto& u) {
-                           // (только в одном случае может найтись nullptr:
-                           // это и есть то, что нам нужно удалить)
-                           return !u.lock() || u.lock()->GetId() == user_id;
-                         });
-
-  if (it == user_ptrs_.end()) throw std::runtime_error("Group::RemoveUser");
-
-  user_ptrs_.erase(it);
-}
-
 Group::~Group() {
   for (const auto& user_ptr : user_ptrs_)
     if (user_ptr.lock()) user_ptr.lock()->AddToGroup(nullptr);
@@ -43,10 +30,8 @@ Group::~Group() {
 std::vector<std::weak_ptr<User>>::const_iterator Group::UserIter_(
     const std::shared_ptr<User>& user_ptr) const {
   return std::find_if(user_ptrs_.cbegin(), user_ptrs_.cend(),
-                      // (только в одном случае может найтись nullptr:
-                      // это и есть то, что нам нужно удалить)
                       [&user_ptr](const auto& u) {
-                        return !u.lock() || *u.lock() == *user_ptr;
+                        return u.lock() && *u.lock() == *user_ptr;
                       });
 }
 

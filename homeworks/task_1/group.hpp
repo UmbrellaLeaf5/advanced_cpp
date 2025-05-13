@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 class User;
@@ -11,6 +10,7 @@ class User;
 
 class Group {
  public:
+  Group() = delete;
   Group(const Group&) = delete;
   Group& operator=(const Group&) = delete;
 
@@ -20,7 +20,6 @@ class Group {
 
   void AddUser(const std::shared_ptr<User>& user_ptr);
   void RemoveUser(const std::shared_ptr<User>& user_ptr);
-  void RemoveUser(size_t user_id);
 
   auto GetId() const { return id_; }
   auto GetTitle() const { return title_; }

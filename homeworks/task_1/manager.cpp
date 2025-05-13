@@ -20,7 +20,10 @@ std::ostream& Manager::CreateUser(size_t user_id, const std::string& nickname,
 
 std::ostream& Manager::DeleteUser(size_t user_id) {
   try {
-    users_dict_.at(user_id);
+    auto user_ptr = users_dict_.at(user_id);
+
+    groups_dict_.at(user_ptr->GetGroup()->GetId())->RemoveUser(user_ptr);
+
     os_ << "! " << GetUserFullString_(user_id) << " deleted SUCCESSFULLY !\n\n";
     users_dict_.erase(user_id);
 

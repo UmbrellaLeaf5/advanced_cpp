@@ -10,6 +10,7 @@ class Group;
 
 class User {
  public:
+  User() = delete;
   User(const User&) = delete;
   User& operator=(const User&) = delete;
 
@@ -27,7 +28,9 @@ class User {
 
   bool operator==(const User& rhs) const { return id_ == rhs.GetId(); }
 
-  ~User();
+  // лучше просто в manager удалять пользователя из его группы,
+  // а не в деструкторе
+  ~User() = default;
 
  private:
   std::weak_ptr<Group> group_ptr_;

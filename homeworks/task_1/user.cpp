@@ -32,7 +32,3 @@ std::ostream& operator<<(std::ostream& os,
 
   return os << *user_ptr;
 }
-
-User::~User() {
-  if (group_ptr_.lock()) group_ptr_.lock()->RemoveUser(id_);
-}
