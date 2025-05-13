@@ -8,7 +8,7 @@ using ssize_t = std::make_signed<size_t>::type;
 template <typename... Types>
 class TypeList {
  private:
-  template <typename... Ts>
+  template <typename... List>
   struct TypeList_ {};
 
   template <size_t Index, typename List>
@@ -65,10 +65,8 @@ class TypeList {
   static constexpr size_t IndexOf() noexcept {
     constexpr ssize_t index_of = IndexOf_<Type, Types...>();
 
-    static_assert(Contains<Type>(),
+    static_assert(Contains<Type>() || index_of != -1,
                   "TypeList::IndexOf: Type not found in TypeList");
-
-    static_assert(index_of != -1, "TypeList::IndexOf: illegal instruction");
 
     return static_cast<size_t>(index_of);
   }
