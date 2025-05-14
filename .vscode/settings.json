@@ -25,4 +25,8 @@
     "трофи"
   ],
   "docwriter.style": "Auto-detect",
+  "files.associations": {
+    "*.py": "python",
+    "compare": "cpp"
+  },
 }
