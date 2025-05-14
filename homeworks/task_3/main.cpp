@@ -15,10 +15,10 @@ int main() {
   TypeMap<int, DataA, double, DataB> myTypeMap;
 
   // Добавление элементов в контейнер
-  myTypeMap.AddValue<int>(42);
-  myTypeMap.AddValue<double>(3.14);
-  myTypeMap.AddValue<DataA>({"Hello, TypeMap!"});
-  myTypeMap.AddValue<DataB>({10});
+  myTypeMap.SetValue<int>(42);
+  myTypeMap.SetValue<double>(3.14);
+  myTypeMap.SetValue<DataA>({"Hello, TypeMap!"});
+  myTypeMap.SetValue<DataB>({10});
 
   // Получение и вывод значений по типам ключей
   std::cout << "Value for int: " << myTypeMap.GetValue<int>()
