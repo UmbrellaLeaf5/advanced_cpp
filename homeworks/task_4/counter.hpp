@@ -1,15 +1,18 @@
 #pragma once
 
 template <typename Derived>
-class counter {
+class CounterCRTP {
  public:
-  counter() { ++count_; }
-  counter(const counter&) { ++count_; }
-  counter(counter&&) noexcept { ++count_; }
+  CounterCRTP() { count_++; }
+  CounterCRTP(const CounterCRTP&) { count_++; }
+  CounterCRTP(CounterCRTP&&) noexcept { count_++; }
 
-  ~counter() { --count_; }
+  CounterCRTP& operator=(const CounterCRTP&) { count_++; }
+  CounterCRTP& operator=(CounterCRTP&&) noexcept { count_++; }
 
-  static int count() { return count_; }
+  ~CounterCRTP() { count_--; }
+
+  static int Count() { return count_; }
 
  private:
   inline static int count_ = 0;

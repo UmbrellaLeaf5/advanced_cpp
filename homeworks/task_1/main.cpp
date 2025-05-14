@@ -51,7 +51,7 @@ int main() {
                      std::function<void(Manager&, std::stringstream&)>>
       command_map = {
           {"help",
-           []([[maybe_unused]] Manager&, [[maybe_unused]] std::stringstream&) {
+           [](Manager&, std::stringstream&) {
              std::cout
                  << "'createUser {userId} {nickname} [groupId]' - "
                     "create a new user;\n"
@@ -71,7 +71,7 @@ int main() {
                     "\n\n";
            }},
           {"exit",
-           []([[maybe_unused]] Manager&, [[maybe_unused]] std::stringstream&) {
+           [](Manager&, std::stringstream&) {
              std::cout << "Exiting the program...\n\n";
 
              std::exit(0);
@@ -89,9 +89,7 @@ int main() {
              m.DeleteUser(ParseID(ss, EntityType::User));
            }},
           {"allUsers",
-           [](Manager& m, [[maybe_unused]] std::stringstream&) {
-             m.PrintAllUsers();
-           }},
+           [](Manager& m, std::stringstream&) { m.PrintAllUsers(); }},
           {"getUser",
            [](Manager& m, std::stringstream& ss) {
              m.PrintUser(ParseID(ss, EntityType::User));
@@ -108,9 +106,7 @@ int main() {
              m.DeleteGroup(ParseID(ss, EntityType::Group));
            }},
           {"allGroups",
-           [](Manager& m, [[maybe_unused]] std::stringstream&) {
-             m.PrintAllGroups();
-           }},
+           [](Manager& m, std::stringstream&) { m.PrintAllGroups(); }},
           {"getGroup",
            [](Manager& m, std::stringstream& ss) {
              m.PrintGroup(ParseID(ss, EntityType::Group));
