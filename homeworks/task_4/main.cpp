@@ -116,7 +116,14 @@ int main() {
 
   NumberAdvanced one_a{1};
   NumberAdvanced two_a;
+
+  std::cout << "Count NumberAdvanced: " << CounterCRTP<NumberAdvanced>::Count()
+            << std::endl;
+
   two_a = one_a * 2;
+
+  std::cout << "Count NumberAdvanced: " << CounterCRTP<NumberAdvanced>::Count()
+            << std::endl;
 
   NumberAdvanced three_a = one_a;
   three_a += two_a;

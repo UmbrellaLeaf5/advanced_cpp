@@ -19,33 +19,7 @@ class CounterCRTP {
    * @brief Конструктор копирования.
    * @details Увеличивает счетчик экземпляров.
    */
-  CounterCRTP(const CounterCRTP&) { count_++; }
-
-  /**
-   * @brief Конструктор перемещения.
-   * @details Увеличивает счетчик экземпляров.
-   */
-  CounterCRTP(CounterCRTP&&) noexcept { count_++; }
-
-  /**
-   * @brief Оператор присваивания копированием.
-   * @details Увеличивает счетчик экземпляров.
-   * @return CounterCRTP&: ссылка на текущий объект.
-   */
-  CounterCRTP& operator=(const CounterCRTP&) {
-    count_++;
-    return *this;
-  }
-
-  /**
-   * @brief Оператор присваивания перемещением.
-   * @details Увеличивает счетчик экземпляров.
-   * @return CounterCRTP&: ссылка на текущий объект.
-   */
-  CounterCRTP& operator=(CounterCRTP&&) noexcept {
-    count_++;
-    return *this;
-  }
+  CounterCRTP(const Derived&) { count_++; }
 
   /**
    * @brief Уничтожает экземпляр Counter CRTP
