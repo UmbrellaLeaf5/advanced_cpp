@@ -1,7 +1,7 @@
 #include "variety.hpp"
 
 int main() {
-  Variety<int> set_1(5, 10);  // Порог 5, начальная емкость массива 10
+  Variety<int> set_1(5);  // Порог 5, начальная емкость массива 10
 
   set_1.Add(1);
   set_1.Add(2);
@@ -13,7 +13,7 @@ int main() {
   set_1.Add(6);
   std::cout << set_1;  // Implementation: HashSet
 
-  Variety<int> set_2(5, 10);
+  Variety<int> set_2(5);
   set_2.Add(5);
   set_2.Add(7);
   set_2.Add(8);

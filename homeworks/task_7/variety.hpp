@@ -84,20 +84,12 @@ class ArrayVarietyImplementation : public VarietyImplementation<T> {
  private:
   std::vector<T> data_;
 
-  /// @brief Максимальная вместимость
-  size_t capacity_;
-
  public:
-  /**
-   * @brief Конструктор реализации на массиве.
-   * @param capacity: максимальное количество элементов.
-   */
-  explicit ArrayVarietyImplementation(size_t capacity) : capacity_(capacity) {}
+  /// @brief Конструктор реализации на массиве.
+  explicit ArrayVarietyImplementation() {}
 
   bool Add(const T& element) override {
-    if (data_.size() >= capacity_ || Contains(element))
-      return false;  // Нельзя добавить при превышении capacity или если элемент
-                     // уже есть
+    if (Contains(element)) return false;
 
     data_.push_back(element);
     return true;
@@ -120,8 +112,7 @@ class ArrayVarietyImplementation : public VarietyImplementation<T> {
 
   std::unique_ptr<VarietyImplementation<T>> UnionSets(
       const VarietyImplementation<T>& other) const override {
-    auto result = std::make_unique<ArrayVarietyImplementation<T>>(capacity_ +
-                                                                  other.Size());
+    auto result = std::make_unique<ArrayVarietyImplementation<T>>();
 
     for (const auto& val : data_) result->Add(val);
     for (const auto& val : other.ToVector()) result->Add(val);
@@ -131,7 +122,7 @@ class ArrayVarietyImplementation : public VarietyImplementation<T> {
 
   std::unique_ptr<VarietyImplementation<T>> IntersectionSets(
       const VarietyImplementation<T>& other) const override {
-    auto result = std::make_unique<ArrayVarietyImplementation<T>>(capacity_);
+    auto result = std::make_unique<ArrayVarietyImplementation<T>>();
 
     for (const auto& val : data_)
       if (other.Contains(val)) result->Add(val);
@@ -208,7 +199,6 @@ class Variety {
   std::unique_ptr<VarietyImplementation<T>> implementation_;
   /// @brief Порог переключения на хеш-таблицу
   size_t threshold_;
-  size_t array_capacity_;
 
   /**
    * @brief Проверяет и корректирует реализацию при необходимости.
@@ -226,8 +216,7 @@ class Variety {
       implementation_ = std::move(temp_imp);
     } else {
       // Переключение на массив
-      auto temp_imp =
-          std::make_unique<ArrayVarietyImplementation<T>>(array_capacity_);
+      auto temp_imp = std::make_unique<ArrayVarietyImplementation<T>>();
       for (const auto& val : implementation_->ToVector()) temp_imp->Add(val);
 
       implementation_ = std::move(temp_imp);
@@ -238,12 +227,9 @@ class Variety {
   /**
    * @brief Конструктор множества.
    * @param threshold: порог для переключения реализаций.
-   * @param array_capacity: вместимость массива в ArrayVarietyImplementation.
    */
-  Variety(size_t threshold, size_t array_capacity)
-      : threshold_(threshold), array_capacity_(array_capacity) {
-    implementation_ =
-        std::make_unique<ArrayVarietyImplementation<T>>(array_capacity);
+  Variety(size_t threshold) : threshold_(threshold) {
+    implementation_ = std::make_unique<ArrayVarietyImplementation<T>>();
   }
 
   /**
@@ -283,7 +269,7 @@ class Variety {
    * @return unique_ptr<Variety>: новое множество-результат.
    */
   std::unique_ptr<Variety> UnionSets(const Variety& other) const {
-    auto result = std::make_unique<Variety>(threshold_, array_capacity_);
+    auto result = std::make_unique<Variety>(threshold_);
 
     result->implementation_ =
         implementation_->UnionSets(*other.implementation_);
@@ -298,7 +284,7 @@ class Variety {
    * @return unique_ptr<Variety>: новое множество-результат.
    */
   std::unique_ptr<Variety> IntersectionSets(const Variety& other) const {
-    auto result = std::make_unique<Variety>(threshold_, array_capacity_);
+    auto result = std::make_unique<Variety>(threshold_);
 
     result->implementation_ =
         implementation_->IntersectionSets(*other.implementation_);
@@ -314,15 +300,21 @@ class Variety {
   size_t Size() const { return implementation_->Size(); }
 
   /**
+   * @brief Конвертирует множество в вектор.
+   * @return vector<T>: вектор содержащий все элементы множества.
+   */
+  auto ToVector() const { return implementation_->ToVector(); }
+
+  /**
    * @brief Оператор вывода множества в поток.
+   * @details Выводит все элементы и текущую реализацию.
    * @param os: выходной поток.
    * @param obj: множество для вывода.
    * @return ostream&: ссылка на поток.
-   * @details Выводит все элементы и текущую реализацию.
    */
   friend std::ostream& operator<<(std::ostream& os, const Variety<T>& obj) {
     os << "Variety: ";
-    for (const auto& val : obj.implementation_->ToVector()) os << val << " ";
+    for (const auto& val : obj.ToVector()) os << val << " ";
 
     os << "\nImplementation: "
        << (dynamic_cast<ArrayVarietyImplementation<T>*>(
