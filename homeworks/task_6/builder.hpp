@@ -7,24 +7,57 @@
 
 class Checkpoint;
 
-// Builder interface
+/**
+ * @brief Абстрактный интерфейс строителя списка контрольных точек.
+ * @details Определяет основные этапы построения различных представлений списка
+ * контрольных точек.
+ */
 class CheckpointListBuilder {
  public:
+  /// @brief Сбрасывает состояние строителя для нового построения.
   virtual void Reset() = 0;
+
+  /**
+   * @brief Добавляет контрольную точку в строитель.
+   * @param checkpoint: контрольная точка для добавления.
+   */
   virtual void Add(const Checkpoint& checkpoint) = 0;
-  virtual std::string GetResult() = 0;  // Changed return type to std::string
-  virtual ~CheckpointListBuilder() {}   // Virtual destructor
+
+  /**
+   * @brief Возвращает результат построения.
+   * @return std::string: строковое представление результата.
+   */
+  virtual std::string GetResult() = 0;
+
+  /// @brief Виртуальный деструктор для корректного удаления производных
+  /// классов.
+  virtual ~CheckpointListBuilder() = default;
 };
 
-// Product: Checkpoint
+/**
+ * @brief Класс, представляющий контрольную точку трассы.
+ * @details Содержит информацию о контрольной точке:
+ * - Название
+ * - Географические координаты
+ * - Штрафное время (для опциональных точек)
+ * - Флаг обязательности
+ */
 class Checkpoint {
  public:
   std::string name;
   double latitude;
   double longitude;
-  double penalty;  // Penalty for optional checkpoints, 0 for mandatory
+  double penalty;
   bool is_optional;
 
+  /**
+   * @brief Основной конструктор контрольной точки.
+   * @param name: название точки.
+   * @param latitude: широта.
+   * @param longitude: долгота.
+   * @param penalty: штрафное время.
+   * @param is_optional: флаг опциональности.
+   */
   Checkpoint(const std::string& name, double latitude, double longitude,
              double penalty, bool is_optional)
       : name(name),
@@ -33,21 +66,32 @@ class Checkpoint {
         penalty(penalty),
         is_optional(is_optional) {}
 
+  /**
+   * @brief Упрощенный конструктор для обязательных контрольных точек.
+   * @param name: название точки.
+   * @param latitude: широта.
+   * @param longitude: долгота.
+   * @details Создает обязательную точку с нулевым штрафом.
+   */
   Checkpoint(const std::string& name, double latitude, double longitude)
       : Checkpoint(name, latitude, longitude, 0.0, false) {}
 };
 
-// Concrete Builder 1: Text Output
+/**
+ * @brief Конкретный строитель для текстового представления списка точек.
+ * @details Формирует читаемое текстовое описание всех контрольных точек.
+ */
 class TextCheckpointListBuilder : public CheckpointListBuilder {
  private:
   std::string result_;
   int checkpoint_count_;
 
  public:
+  /// @brief Конструктор, инициализирующий начальное состояние.
   TextCheckpointListBuilder() : checkpoint_count_(0) { Reset(); }
 
   void Reset() override {
-    result_ = "";
+    result_.clear();
     checkpoint_count_ = 0;
   }
 
@@ -62,13 +106,16 @@ class TextCheckpointListBuilder : public CheckpointListBuilder {
     result_ +=
         checkpoint.is_optional
             ? "Penalty: " + std::to_string(checkpoint.penalty) + " hours\n"
-            : "Penalty: Failure\n";
+            : "Penalty: [optional cp]\n";
   }
 
   std::string GetResult() override { return result_; }
 };
 
-// Concrete Builder 2: Total Penalty Calculation
+/**
+ * @brief Конкретный строитель для расчета суммарного штрафа.
+ * @details Вычисляет общее штрафное время только для опциональных точек.
+ */
 class PenaltyCheckpointListBuilder : public CheckpointListBuilder {
  private:
   double total_penalty_;
@@ -89,8 +136,17 @@ class PenaltyCheckpointListBuilder : public CheckpointListBuilder {
   }
 };
 
+/**
+ * @brief Директор, управляющий процессом построения.
+ * @details Организует процесс построения, используя переданный строитель.
+ */
 class RaceTrackDirector {
  public:
+  /**
+   * @brief Строит представление списка контрольных точек.
+   * @param builder: указатель на конкретный строитель.
+   * @param checkpoints: вектор контрольных точек для обработки.
+   */
   void Construct(CheckpointListBuilder* builder,
                  const std::vector<Checkpoint>& checkpoints) {
     builder->Reset();
