@@ -2,14 +2,19 @@
   "cSpell.words": [
     "constexpr",
     "CRTP",
+    "decltype",
     "dylib",
     "EENS",
     "endforeach",
     "endfunction",
     "Kahan",
+    "Lvalue",
+    "malloc",
     "qmlc",
     "qmlcache",
     "qmlproject",
+    "RAII",
+    "rvalue",
     "SFINAE",
     "smod",
     "SUBDIRS",
@@ -23,8 +28,12 @@
     "Wpedantic",
     "виджете",
     "логгер",
+    "Манглирование",
     "опциональности",
-    "трофи"
+    "потокобезопасной",
+    "прекомпилированной",
+    "трофи",
+    "Флойда"
   ],
   "docwriter.style": "Auto-detect",
 }
