@@ -53,7 +53,7 @@ int main() {
   // std::cout <<
   ptr->DoSomething2();  // с -O2 компилятор вырезает эту строку, иначе это seg
                         // fault
-  //  << std::endl;
+  //  << "\n";
 
   // if (ptr && ptr->DoSomething()) {
   // }

@@ -16,12 +16,12 @@ int main() {
 
   std::cout << "Expression: ";
   expression->Print();
-  std::cout << std::endl;
+  std::cout << "\n";
 
   std::map<std::string, int> variables = {{"x", 5}, {"y", 8}};
   int result = expression->Evaluate(variables);
 
-  std::cout << "Result when x = 5, y = 8: " << result << std::endl;
+  std::cout << "Result when x = 5, y = 8: " << result << "\n";
 
   return 0;
 }

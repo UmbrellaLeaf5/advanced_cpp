@@ -7,9 +7,9 @@ class BaseCRTP {
 
  public:
   void action(int add) {
-    std::cout << "base action " << i << std::endl;
+    std::cout << "base action " << i << "\n";
     static_cast<T*>(this)->action_impl(add);
-    std::cout << "after action " << i << std::endl;
+    std::cout << "after action " << i << "\n";
   }
   void action_impl([[maybe_unused]] int add) {}
 
@@ -45,7 +45,7 @@ class DerivedCRTP : public BaseCRTP<DerivedCRTP> {
  public:
   void action_impl(int add) {
     i += add;
-    std::cout << "action" << std::endl;
+    std::cout << "action" << "\n";
   }
 };
 
@@ -55,15 +55,15 @@ class OtherDerivedCRTP : public BaseCRTP<OtherDerivedCRTP> {
   A* ptr = nullptr;
 
  public:
-  OtherDerivedCRTP() : ptr(new A) { std::cout << "Ctr" << std::endl; }
+  OtherDerivedCRTP() : ptr(new A) { std::cout << "Ctr" << "\n"; }
   ~OtherDerivedCRTP() {
     delete ptr;
     ptr = nullptr;
-    std::cout << "Dtr" << std::endl;
+    std::cout << "Dtr" << "\n";
   }
   //     void action(int add) {
   //         i -= add;
-  //         std::cout << " other action " << std::endl;
+  //         std::cout << " other action " << "\n";
   //     }action
 };
 

@@ -1,3 +1,3 @@
 #include <iostream>
 
-void Other() { std::cout << "This is other function" << std::endl; }
+void Other() { std::cout << "This is other function" << "\n"; }

@@ -112,18 +112,18 @@ int main() {
   assert(three > two);
   assert(one < two);
 
-  std::cout << "Count Number: " << CounterCRTP<Number>::Count() << std::endl;
+  std::cout << "Count Number: " << CounterCRTP<Number>::Count() << "\n";
 
   NumberAdvanced one_a{1};
   NumberAdvanced two_a;
 
   std::cout << "Count NumberAdvanced: " << CounterCRTP<NumberAdvanced>::Count()
-            << std::endl;
+            << "\n";
 
   two_a = one_a * 2;
 
   std::cout << "Count NumberAdvanced: " << CounterCRTP<NumberAdvanced>::Count()
-            << std::endl;
+            << "\n";
 
   NumberAdvanced three_a = one_a;
   three_a += two_a;
@@ -137,7 +137,7 @@ int main() {
   assert(one_a < two_a);
 
   std::cout << "Count NumberAdvanced: " << CounterCRTP<NumberAdvanced>::Count()
-            << std::endl;
+            << "\n";
 
   return 0;
 }

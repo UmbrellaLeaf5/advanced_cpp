@@ -44,7 +44,7 @@ namespace detail {
  * или "искажённое" имя, если преобразование не удалось.
  */
 template <typename T>
-std::string TypeName() {
+inline std::string TypeName() {
   int status = -1;
   std::unique_ptr<char, void (*)(void*)> res{
       abi::__cxa_demangle(typeid(T).name(), nullptr, nullptr, &status),
@@ -69,19 +69,17 @@ std::string TypeName() {
  * @param value: константная ссылка на переменную, которую нужно исследовать.
  */
 template <typename T>
-void PrintVerboseVarInfo(const T& value) {
-  std::cout << "--------------------------------------------------"
-            << std::endl;
-  std::cout << "Variable Information:" << std::endl;
-  std::cout << "\tValue: " << value << std::endl;
+inline void PrintVerboseVarInfo(const T& value) {
+  std::cout << "--------------------------------------------------\n";
+  std::cout << "Variable Information:\n";
+  std::cout << "\tValue: " << value << "\n";
 
   using ActualType = typename std::decay<decltype(value)>::type;
 
   std::cout << "\tType (std::decay): " << detail::TypeName<ActualType>()
-            << std::endl;
-  std::cout << "\tType (typeid): " << typeid(value).name() << std::endl;
+            << "\n";
+  std::cout << "\tType (typeid): " << typeid(value).name() << "\n";
 
   IC_TYPE(value);
-  std::cout << "--------------------------------------------------"
-            << std::endl;
+  std::cout << "--------------------------------------------------\n";
 }

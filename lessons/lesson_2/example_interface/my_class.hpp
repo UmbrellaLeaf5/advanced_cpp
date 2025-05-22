@@ -9,7 +9,7 @@ class MyClassInterface {
   virtual void Func() = 0;
 
   MyClassInterface() {}
-  virtual ~MyClassInterface() { std::cout << "MyClassInterface" << std::endl; }
+  virtual ~MyClassInterface() { std::cout << "MyClassInterface" << "\n"; }
 };
 
 class DerivedClass : public MyClassInterface {
@@ -18,7 +18,7 @@ class DerivedClass : public MyClassInterface {
   void virtual Func() override {}
 
   DerivedClass() {}
-  ~DerivedClass() { std::cout << "DerivedClass" << std::endl; }
+  ~DerivedClass() { std::cout << "DerivedClass" << "\n"; }
 };
 
 // MARK: CRTP
@@ -35,7 +35,7 @@ class CRTPDerived : public
  public:
   void g() {
     a = 0;
-    std::cout << "a: " << a << std::endl;
+    std::cout << "a: " << a << "\n";
   }
 
   int a;
@@ -45,7 +45,7 @@ class CRTPDerivedOther : public CRTPBase<CRTPDerivedOther> {
  public:
   // void g() {
   //   a = 5.0;
-  //   std::cout << "a: " << a << std::endl;
+  //   std::cout << "a: " << a << "\n";
   // }
   float a;
 };

@@ -6,12 +6,12 @@
 template <typename T>
 // подходит по механизму умных ссылок
 void Func([[maybe_unused]] T&& var) {
-  std::cout << "Template" << std::endl;
+  std::cout << "Template" << "\n";
 }
 
-// void func(int& var) { std::cout << "LValue Ref" << std::endl; }
+// void func(int& var) { std::cout << "LValue Ref" << "\n"; }
 
-void Func([[maybe_unused]] int&& var) { std::cout << "Simple" << std::endl; }
+void Func([[maybe_unused]] int&& var) { std::cout << "Simple" << "\n"; }
 
 extern void Other();
 
@@ -29,7 +29,7 @@ int main() {
   Func(std::move(a));
   Func(std::move(b));
 
-  std::cout << "Type of std::move(b): " << std::endl;
+  std::cout << "Type of std::move(b): " << "\n";
   PrintVerboseVarInfo(std::move(b));
 
   Other();

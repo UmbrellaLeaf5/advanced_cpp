@@ -30,4 +30,4 @@ struct factorial<0> : public integral_constant<unsigned long, 1> {};
 template <unsigned long N>
 constexpr unsigned long factorial_v = factorial<N>::value;
 
-int main() { std::cout << factorial_v<5> << std::endl; }
+int main() { std::cout << factorial_v<5> << "\n"; }

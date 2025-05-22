@@ -63,16 +63,16 @@ int main() {
 
   // Получение и вывод значений по типам ключей
   std::cout << "Value for int: " << myTypeMap.GetValue<int>()
-            << std::endl;  // Вывод: 42
+            << "\n";  // Вывод: 42
   std::cout << "Value for double: " << myTypeMap.GetValue<double>()
-            << std::endl;  // Вывод: 3.14
+            << "\n";  // Вывод: 3.14
   std::cout << "Value for DataA: " << myTypeMap.GetValue<DataA>().value
-            << std::endl;  // Вывод: Hello, TypeMap!
+            << "\n";  // Вывод: Hello, TypeMap!
   std::cout << "Value for DataB: " << myTypeMap.GetValue<DataB>().value
-            << std::endl;  // Вывод: 10
+            << "\n";  // Вывод: 10
   // Проверка наличия элемента
   std::cout << "Contains int? " << (myTypeMap.Contains<int>() ? "Yes" : "No")
-            << std::endl;  // Вывод: Yes
+            << "\n";  // Вывод: Yes
 
   // Удаление элемента
   myTypeMap.RemoveValue<double>();
@@ -80,7 +80,7 @@ int main() {
   // Попытка получения удаленного элемента
   std::cout << "Value for double after removal: "
             << myTypeMap.GetValue<double>()
-            << std::endl;  // Вывод: (некорректное значение)
+            << "\n";  // Вывод: (некорректное значение)
   return 0;
 }
 ```
@@ -116,7 +116,7 @@ int main() {
   assert(three > two);
   assert(one < two);
 
-  std::cout << "Count: " << counter<Number>::count() << std::endl;
+  std::cout << "Count: " << counter<Number>::count() << "\n";
   return 0;
 }
 ```

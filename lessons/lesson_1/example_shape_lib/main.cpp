@@ -8,7 +8,7 @@
 
 int main() {
   // Rectangle rectangle(10, 20);
-  // std::cout << rectangle.area() << std::endl;
+  // std::cout << rectangle.area() << "\n";
   std::vector<std::unique_ptr<Shape>> shapes;
   shapes.emplace_back(new Rectangle(20, 30));
   shapes.emplace_back(new Circle(5));
@@ -22,7 +22,7 @@ int main() {
   double area = 0;
   for (const auto& shape : shapes) area += shape->Area();
 
-  std::cout << area << std::endl;
+  std::cout << area << "\n";
 
   return 0;
 }

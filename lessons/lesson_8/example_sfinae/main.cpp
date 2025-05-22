@@ -83,13 +83,13 @@ constexpr bool have_range_v = have_range<T>::value;
 
 template <class T>
 enable_if_t<have_sort_v<T>> fast_sort(T& x) {
-  std::cout << "x.sort();" << std::endl;
+  std::cout << "x.sort();" << "\n";
   x.sort();
 }
 
 template <class T>
 enable_if_t<have_range_v<T> && !have_sort_v<T>> fast_sort(T& x) {
-  std::cout << "std::sort(x.begin(), x.end());" << std::endl;
+  std::cout << "std::sort(x.begin(), x.end());" << "\n";
   std::sort(x.begin(), x.end());
 }
 
@@ -135,7 +135,7 @@ int main() {
   // auto tmp = static_cast<void (std::list<int>::*)()>(std::list<int>::sort);
   // std::cout << std::boolalpha
   //           << detail::is_sort_fun<decltype(&std::list<int>::sort)>::value
-  //           << std::endl;
+  //           << "\n";
 
   // fast_sort(l);
   // fast_sort(v);

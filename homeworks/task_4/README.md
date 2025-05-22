@@ -29,7 +29,7 @@ int main() {
   assert(three > two);
   assert(one < two);
 
-  std::cout << "Count: " << counter<Number>::count() << std::endl;
+  std::cout << "Count: " << counter<Number>::count() << "\n";
   return 0;
 }
 ```

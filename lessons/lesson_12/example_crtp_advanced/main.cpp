@@ -70,7 +70,7 @@ class BusForChildren : public Automobile<BusForChildren>,
   friend registry<BusForChildren>;
 
  public:
-  void drive_impl() { std::cout << "carefully driving  bus" << std::endl; }
+  void drive_impl() { std::cout << "carefully driving  bus" << "\n"; }
 };
 
 int main() {

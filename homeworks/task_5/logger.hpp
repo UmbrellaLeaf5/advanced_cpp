@@ -86,7 +86,7 @@ class Logger : public SingletonCRTP<Logger> {
 
     else {
       std::cerr << "Failed to open file: " << filename
-                << ".\n\t(using std::cout instead)" << std::endl;
+                << ".\n\t(using std::cout instead)" << "\n";
       output_stream_ = &std::cout;
     }
 

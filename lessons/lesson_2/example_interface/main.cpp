@@ -5,7 +5,7 @@ int main() {
   // оба деструктора: DerivedClass, потом MyClassInterface
   delete d;
 
-  std::cout << std::endl;
+  std::cout << "\n";
 
   MyClassInterface *mci = new DerivedClass();
   // только MyClassInterface (если нет виртуального конструктора)
