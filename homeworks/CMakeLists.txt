@@ -19,7 +19,7 @@ foreach(SUBDIR ${SUBDIRS})
     set(SUBPROJECT_NAME "${PROJECT_NAME}_${SUBPROJECT_NAME}")
 
     # (files only in one subfolder)
-    file(GLOB SUBPROJECT_SOURCES
+    file(GLOB_RECURSE SUBPROJECT_SOURCES
       ${SUBDIR}/${HEADERS_FORMAT}
       ${SUBDIR}/${SOURCES_FORMAT}
     )
